@@ -8,5 +8,21 @@
   <body>
     <h1>💖 Hello World!</h1>
     <p>Welcome to your Electron application.</p>
+
+    <button id="test-btn">Test</button>
+
+    <script>
+      const btnRef = document.getElementById('test-btn');
+
+      btnRef.addEventListener('click', () => {
+        window.api.send('hello-world', 'Hello World!');
+
+
+        window.api.receiveOnce('hello-world-reply', (data) => {
+          console.log(data);
+          console.log("Received reply from main process");
+        });
+      });
+    </script>
   </body>
 </html>
