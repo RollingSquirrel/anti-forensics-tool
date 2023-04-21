@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs/promises");
-//const {utimes, lutimes} = require("utimes")
+const { lutimes } = require("utimes");
 
 let normPath = "";
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -25,7 +25,7 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, "index.html"));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+ // mainWindow.webContents.openDevTools();
 
   ipcMain.on("originalFile", async (event, arg) => {
     normPath = path.normalize(arg);
@@ -73,8 +73,8 @@ ipcMain.on("modifiedFiles", async (event, arg) => {
     }
     if (arg.creationDate) {
       await lutimes(normPath, {
-        btime: 447775200000
-    });
+        btime: arg.creationDate.getTime(),
+      });
     }
     if (arg.lastChanged) {
       await fs.utimes(normPath, arg.lastChanged, arg.lastChanged, (err) => {
@@ -85,6 +85,24 @@ ipcMain.on("modifiedFiles", async (event, arg) => {
         console.log(
           `Successfully updated ${normPath} with new Creation Date ${newText}`
         );
+      });
+    }
+    if (arg.lastUsed) {
+      fs.stat(normPath, (err, stats) => {
+        if (err) {
+          console.error(err);
+        } else {
+          const currentMtime = stats.mtime;
+          fs.utimes(normPath, arg.lastUsed, currentMtime, (err) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log(
+                `Successfully updated last used property of file ${normPath}`
+              );
+            }
+          });
+        }
       });
     }
   } catch (err) {
