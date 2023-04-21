@@ -101,15 +101,15 @@
         }
 
         if (modified_creationDate.value && modified_creationDate.value.length) {
-          modifiedFiles.creationDate = modified_creationDate.value;
+          modifiedFiles.creationDate = new Date(modified_creationDate.value);
         }
       
         if (modified_lastChanged.value && modified_lastChanged.value.length) {
-          modifiedFiles.lastChanged = modified_lastChanged.value;
+          modifiedFiles.lastChanged = new Date(modified_lastChanged.value);
         }
       
         if (modified_lastUsed.value && modified_lastUsed.length) {
-          modifiedFiles.lastUsed = modified_lastUsed.value;
+          modifiedFiles.lastUsed = new Date(modified_lastUsed.value);
         }
       
         window.api.send("modifiedFiles", modifiedFiles);

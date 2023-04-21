@@ -1,8 +1,9 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs/promises");
+//const {utimes, lutimes} = require("utimes")
 
-let normPath = ""
+let normPath = "";
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
@@ -34,9 +35,13 @@ const createWindow = () => {
     try {
       textValue = await fs.readFile(normPath, "utf8");
       const stats = await fs.stat(normPath);
-      creationDate = stats.birthtime;
-      lastChanged = stats.mtime;
-      lastUsed = stats.atime;
+      creationDate = new Date(stats.birthtime)
+        .toLocaleDateString("en-CA")
+        .slice(0, 10);
+      lastChanged = new Date(stats.mtime)
+        .toLocaleDateString("en-CA")
+        .slice(0, 10);
+      lastUsed = new Date(stats.atime).toLocaleDateString("en-CA").slice(0, 10);
     } catch (err) {
       console.error(err);
       event.reply("originalFileReply", { error: err.message });
@@ -52,24 +57,41 @@ const createWindow = () => {
   });
 };
 
-ipcMain.on("modifiedFiles" , async(event, arg) => {
-  console.log(arg)
+ipcMain.on("modifiedFiles", async (event, arg) => {
+  console.log(arg);
   try {
     if (arg.textValue) {
-      await fs.writeFile(normPath, arg.textValue, 'utf8', (err) => {
+      await fs.writeFile(normPath, arg.textValue, "utf8", (err) => {
         if (err) {
           console.error(err);
           return;
         }
-        console.log(`Successfully updated ${filePath} with ${newText}`);
+        console.log(
+          `Successfully updated ${normPath} with new Text: ${newText}`
+        );
+      });
+    }
+    if (arg.creationDate) {
+      await lutimes(normPath, {
+        btime: 447775200000
+    });
+    }
+    if (arg.lastChanged) {
+      await fs.utimes(normPath, arg.lastChanged, arg.lastChanged, (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log(
+          `Successfully updated ${normPath} with new Creation Date ${newText}`
+        );
       });
     }
   } catch (err) {
-    console.error(err)
-    return
+    console.error(err);
+    return;
   }
-  
-})
+});
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
