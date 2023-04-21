@@ -2,27 +2,91 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Hello World!</title>
+    <title>File Manipulator</title>
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
+    <h1>File Manipulator</h1>
 
-    <button id="test-btn">Test</button>
+    <button id="upload-btn">Upload File</button>
+
+    <h3>Original File Data</h3>
+    <div class="modified_data">
+      <label
+        >Text Value
+        <input type="text" id="original_text_value" readonly />
+      </label>
+      <label
+        >Creation Date
+        <input type="text" id="original_creation_date" readonly />
+      </label>
+      <label
+        >Last Changed Date
+        <input type="text" id="original_last_changed_date" readonly />
+      </label>
+      <label
+        >Last Use Date
+        <input type="text" id="original_last_use_date" readonly />
+      </label>
+    </div>
+
+    <h3>Edit your File here</h3>
+    <div class="modified_data">
+      <label
+        >Text Value
+        <input type="text" id="modified_text_value" readonly />
+      </label>
+      <label
+        >Creation Date
+        <input type="text" id="modified_creation_date" />
+      </label>
+      <label
+        >Last Changed Date
+        <input type="text" id="modified_last_changed_date" value=""/>
+      </label>
+      <label
+        >Last Use Date
+        <input type="text" id="modified_last_use_date" />
+      </label>
+    </div>
+
+    <button id="modify-btn">Modify File</button>
 
     <script>
-      const btnRef = document.getElementById('test-btn');
+    
+      const uploadButton = document.getElementById("upload-btn");
+      const creationDate = document.getElementById("original_creation_date")
+      const textValue = document.getElementById("original_text_value")
+      const lastChanged = document.getElementById("original_last_changed_date")
+      const lastUsed = document.getElementById("original_last_use_date")
+      
 
-      btnRef.addEventListener('click', () => {
-        window.api.send('hello-world', 'Hello World!');
+      async function updateLastEdited(filePath) {
+        const now = new Date("1980-01-01");
+        await fs.utimes(filePath, now, now);
+      }
 
+      uploadButton.addEventListener('click', () => {
+        const input = document.createElement('input')
+        input.type = 'file'
+        input.accept = '.txt,.jpg,.png,.gif'
 
-        window.api.receiveOnce('hello-world-reply', (data) => {
-          console.log(data);
-          console.log("Received reply from main process");
-        });
-      });
+        input.addEventListener('change', () => {
+          const file = input.files[0]
+          console.log(file.path)
+
+          window.api.send("hello-world", file.path);
+
+          window.api.receiveOnce("hello-world-reply", (data) => {
+            console.log(data);
+            console.log("Received reply from main process");
+          });
+        })
+
+        input.click()
+      })
+ 
+     
     </script>
   </body>
 </html>

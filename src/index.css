@@ -5,3 +5,19 @@ body {
   max-width: 38rem;
   padding: 2rem;
 }
+
+.modified_data {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.modified_data label {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.modified_data input[type="text"] {
+  margin-left: 10px;
+}
