@@ -15,13 +15,13 @@ contextBridge.exposeInMainWorld(
   "api", {
   send: (channel, data) => {
     // whitelist channels
-    let validChannels = ["hello-world"];
+    let validChannels = ["originalFile"];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
     }
   },
   receive: (channel, func) => {
-    let validChannels = ["hello-world-reply"];
+    let validChannels = ["originalFileReply"];
     if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender`
       // we do not want to expose that to the renderer process 
@@ -29,7 +29,7 @@ contextBridge.exposeInMainWorld(
     }
   },
   receiveOnce: (channel, func) => {
-    let validChannels = ["hello-world-reply"];
+    let validChannels = ["originalFileReply"];
     if (validChannels.includes(channel)) {
       ipcRenderer.once(channel, (event, ...args) => func(...args));
     }

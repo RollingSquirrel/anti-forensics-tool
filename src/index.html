@@ -42,7 +42,7 @@
       </label>
       <label
         >Last Changed Date
-        <input type="text" id="modified_last_changed_date" value=""/>
+        <input type="text" id="modified_last_changed_date" value="" />
       </label>
       <label
         >Last Use Date
@@ -53,40 +53,40 @@
     <button id="modify-btn">Modify File</button>
 
     <script>
-    
       const uploadButton = document.getElementById("upload-btn");
-      const creationDate = document.getElementById("original_creation_date")
-      const textValue = document.getElementById("original_text_value")
-      const lastChanged = document.getElementById("original_last_changed_date")
-      const lastUsed = document.getElementById("original_last_use_date")
-      
+      let creationDate = document.getElementById("original_creation_date");
+      let textValue = document.getElementById("original_text_value");
+      let lastChanged = document.getElementById("original_last_changed_date");
+      let lastUsed = document.getElementById("original_last_use_date");
 
       async function updateLastEdited(filePath) {
         const now = new Date("1980-01-01");
         await fs.utimes(filePath, now, now);
       }
 
-      uploadButton.addEventListener('click', () => {
-        const input = document.createElement('input')
-        input.type = 'file'
-        input.accept = '.txt,.jpg,.png,.gif'
+      uploadButton.addEventListener("click", () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".txt,.jpg,.png,.gif";
 
-        input.addEventListener('change', () => {
-          const file = input.files[0]
-          console.log(file.path)
+        input.addEventListener("change", () => {
+          const file = input.files[0];
 
-          window.api.send("hello-world", file.path);
+          window.api.send("originalFile", file.path);
 
-          window.api.receiveOnce("hello-world-reply", (data) => {
-            console.log(data);
-            console.log("Received reply from main process");
+          window.api.receiveOnce("originalFileReply", (data) => {
+            console.log("Recieved: ",data)
+            lastUsed.value = data.lastUsed;
+            creationDate.value = data.creationDate;
+            lastChanged.value = data.lastChanged;
+            textValue.value = data.textValue;
+            
+           
           });
-        })
+        });
 
-        input.click()
-      })
- 
-     
+        input.click();
+      });
     </script>
   </body>
 </html>

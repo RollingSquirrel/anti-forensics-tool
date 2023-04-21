@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
-const fs = require("fs");
+const fs = require("fs/promises");
+
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -25,14 +26,29 @@ const createWindow = () => {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  ipcMain.on("", (event, arg) => {
-    const filePath = "C:/Users/lukas/OneDrive/Dokumente/testfile.txt"; // Replace with your file path
-    fs.readFile(filePath, "utf8", (err, data) => {
-      if (err) throw err;
-      console.log("Data from IndexJS: " + data);
-    });
+  ipcMain.on("originalFile", async (event, arg) => {
+    const normPath = path.normalize(arg);
 
-    event.reply("hello-world-reply", "Hello from the main process!");
+    let textValue, creationDate, lastChanged, lastUsed;
+
+    try {
+      textValue = await fs.readFile(normPath, "utf8");
+      const stats = await fs.stat(normPath);
+      creationDate = stats.birthtime;
+      lastChanged = stats.mtime;
+      lastUsed = stats.atime;
+    } catch (err) {
+      console.error(err);
+      event.reply("originalFileReply", { error: err.message });
+      return;
+    }
+
+    event.reply("originalFileReply", {
+      textValue,
+      creationDate,
+      lastChanged,
+      lastUsed,
+    });
   });
 };
 
