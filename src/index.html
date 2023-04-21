@@ -6,48 +6,40 @@
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
-    <h1>File Manipulator</h1>
-
-    <button id="upload-btn">Upload File</button>
-
-    <h3>Original File Data</h3>
-    <div class="modified_data">
-      <label
-        >Text Value
-        <input type="text" id="original_text_value" readonly />
-      </label>
-      <label
-        >Creation Date
-        <input type="text" id="original_creation_date" readonly />
-      </label>
-      <label
-        >Last Changed Date
-        <input type="text" id="original_last_changed_date" readonly />
-      </label>
-      <label
-        >Last Use Date
-        <input type="text" id="original_last_use_date" readonly />
-      </label>
+    <h1 class="greenFont">File Manipulator</h1>
+    <div class="filepicker">
+      <button id="upload-btn" class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]">Upload File</button>
+      <span id="fileNameSpan"></span>
     </div>
 
-    <h3>Edit your File here</h3>
-    <div class="modified_data">
-      <label
-        >Text Value
-        <input type="text" id="modified_text_value" />
-      </label>
-      <label
-        >Creation Date
-        <input type="text" id="modified_creation_date" />
-      </label>
-      <label
-        >Last Changed Date
-        <input type="text" id="modified_last_changed_date" />
-      </label>
-      <label
-        >Last Use Date
-        <input type="text" id="modified_last_use_date" />
-      </label>
+    <h3 class="greenFont">Original File Data</h3>
+    <div class="file_details">
+      <label>Text Value: </label>
+      <input type="text" id="original_text_value" readonly />
+
+      <label>Creation Date: </label>
+      <input type="text" id="original_creation_date" readonly />
+
+      <label>Last Changed Date: </label>
+      <input type="text" id="original_last_changed_date" readonly />
+
+      <label>Last Used Date: </label>
+      <input type="text" id="original_last_use_date" readonly />
+    </div>
+
+    <h3 class="greenFont">Edit your File here</h3>
+    <div class="file_details">
+      <label>Text Value: </label>
+      <input type="text" id="modified_text_value" />
+
+      <label>Creation Date: </label>
+      <input type="text" id="modified_creation_date" />
+
+      <label>Last Changed Date: </label>
+      <input type="text" id="modified_last_changed_date" />
+
+      <label>Last Used Date: </label>
+      <input type="text" id="modified_last_use_date" />
     </div>
 
     <button id="modify-btn">Modify File</button>
@@ -58,11 +50,16 @@
       let textValue = document.getElementById("original_text_value");
       let lastChanged = document.getElementById("original_last_changed_date");
       let lastUsed = document.getElementById("original_last_use_date");
+      let fileNameSpan = document.getElementById("fileNameSpan");
 
       const modifyButton = document.getElementById("modify-btn");
-      let modified_creationDate = document.getElementById("modified_creation_date");
+      let modified_creationDate = document.getElementById(
+        "modified_creation_date"
+      );
       let modified_textValue = document.getElementById("modified_text_value");
-      let modified_lastChanged = document.getElementById("modified_last_changed_date");
+      let modified_lastChanged = document.getElementById(
+        "modified_last_changed_date"
+      );
       let modified_lastUsed = document.getElementById("modified_last_use_date");
 
       async function updateLastEdited(filePath) {
@@ -78,16 +75,15 @@
         input.addEventListener("change", () => {
           const file = input.files[0];
 
+          fileNameSpan.textContent = file.name;
           window.api.send("originalFile", file.path);
 
           window.api.receiveOnce("originalFileReply", (data) => {
-            console.log("Recieved: ",data)
+            console.log("Recieved: ", data);
             lastUsed.value = data.lastUsed;
             creationDate.value = data.creationDate;
             lastChanged.value = data.lastChanged;
             textValue.value = data.textValue;
-            
-           
           });
         });
         input.click();
@@ -103,17 +99,17 @@
         if (modified_creationDate.value && modified_creationDate.value.length) {
           modifiedFiles.creationDate = new Date(modified_creationDate.value);
         }
-      
+
         if (modified_lastChanged.value && modified_lastChanged.value.length) {
           modifiedFiles.lastChanged = new Date(modified_lastChanged.value);
         }
-      
-        if (modified_lastUsed.value && modified_lastUsed.length) {
+
+        if (modified_lastUsed.value && modified_lastUsed.value.length) {
           modifiedFiles.lastUsed = new Date(modified_lastUsed.value);
         }
-      
+
         window.api.send("modifiedFiles", modifiedFiles);
-      })
+      });
     </script>
   </body>
 </html>

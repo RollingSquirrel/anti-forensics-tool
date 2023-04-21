@@ -1,23 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+	font-family: 'Allerta';
+	src: url('/fonts/Allerta-Regular.woff2') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif;
+  font-family: 'Allerta', sans-serif, monospace;
+  --tw-bg-opacity: 1;
+  background-color: rgb(2 6 23 / var(--tw-bg-opacity));
   margin: auto;
   max-width: 38rem;
   padding: 2rem;
+  --tw-text-opacity: 1;
+  color: rgb(148 163 184 / var(--tw-text-opacity));
+  
 }
 
-.modified_data {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+.greenFont {
+  color: #48bb78;
 }
 
-.modified_data label {
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
+.filepicker {
+  display: flex; /* Use flexbox to align items in a row */
+  align-items: center; /* Center items vertically */
 }
 
-.modified_data input[type="text"] {
-  margin-left: 10px;
+.filepicker button {
+  margin-right: 10px;
+}
+
+
+.file_details {
+  display: grid;
+  font-weight: bold;
+  grid-template-columns: 150px 1fr;
+  grid-row-gap: 10px;
+}
+
+.file_details label {
+  display: block; /* Display each label on its own line */
+  margin-bottom: 5px; /* Add some space between each label */
+  width: 200px;
+  
+}
+
+.file_details label input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 5px; /* Add some space between each input and its label */
+  
 }
