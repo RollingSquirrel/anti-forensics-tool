@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld(
   "api", {
   send: (channel, data) => {
     // whitelist channels
-    let validChannels = ["originalFile"];
+    let validChannels = ["originalFile", "modifiedFiles"];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
     }

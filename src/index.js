@@ -2,7 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs/promises");
 
-
+let normPath = ""
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
   app.quit();
@@ -27,7 +27,7 @@ const createWindow = () => {
   mainWindow.webContents.openDevTools();
 
   ipcMain.on("originalFile", async (event, arg) => {
-    const normPath = path.normalize(arg);
+    normPath = path.normalize(arg);
 
     let textValue, creationDate, lastChanged, lastUsed;
 
@@ -51,6 +51,25 @@ const createWindow = () => {
     });
   });
 };
+
+ipcMain.on("modifiedFiles" , async(event, arg) => {
+  console.log(arg)
+  try {
+    if (arg.textValue) {
+      await fs.writeFile(normPath, arg.textValue, 'utf8', (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        console.log(`Successfully updated ${filePath} with ${newText}`);
+      });
+    }
+  } catch (err) {
+    console.error(err)
+    return
+  }
+  
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
