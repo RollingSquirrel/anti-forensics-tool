@@ -1,72 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @font-face {
 	font-family: 'Allerta';
-	src: url('/fonts/Allerta-Regular.woff2') format('truetype');
+  /* reference font in assets folder - path relative to gen folder */
+	src: url('./../assets/fonts/Allerta-Regular.woff2') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 }
 
 body {
   font-family: 'Allerta', sans-serif, monospace;
-  --tw-bg-opacity: 1;
-  background-color: rgb(2 6 23 / var(--tw-bg-opacity));
-  margin: auto;
-  max-width: 38rem;
-  padding: 2rem;
-  --tw-text-opacity: 1;
-  color: rgb(148 163 184 / var(--tw-text-opacity));
-  
-}
-
-.greenFont {
-  color: #48bb78;
-}
-
-.filepicker {
-  display: flex; /* Use flexbox to align items in a row */
-  align-items: center; /* Center items vertically */
-}
-
-.filepicker button {
-  margin-right: 10px;
-}
-
-
-.file_details {
-  display: grid;
-  font-weight: bold;
-  grid-template-columns: 200px 400px;
-  grid-row-gap: 10px;
-}
-
-.file_details label {
-  display: block; /* Display each label on its own line */
-  margin-bottom: 5px; /* Add some space between each label */
-  
-}
-
-.file_details label input[type="text"] {
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 5px; /* Add some space between each input and its label */
-}
-
-button {
-  padding: 0.5rem 0.75rem;
-  font-weight: bold;
-  color: #059669;
-  outline-offset: -1px;
-  border-radius: 0.375rem;
-  outline: 2px solid #059669;
-  background-color: transparent;
-  min-width: 6rem;
-}
-
-button:hover {
-  background-color: #111827;
-  outline-color: #059669;
-  cursor: pointer;
-}
-
-button:active {
-  border-style: outset;
+  @apply bg-slate-950;
+  @apply text-slate-400;
 }

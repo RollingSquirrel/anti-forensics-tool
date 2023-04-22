@@ -1,121 +1,137 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>File Manipulator</title>
-    <link href="/dist/output.css" rel="stylesheet">
-  </head>
-  <body>
-    <h1 class="green-600">File Manipulator</h1>
-    <div class="filepicker">
-      <button
-        id="upload-btn"
-        class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]"
-      >
-        Upload File
-      </button>
-      <span id="fileNameSpan"></span>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>File Manipulator</title>
+  <link href="./gen/index.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="flex flex-row justify-center">
+    <div class="max-w-screen-xl">
+      <h1 class="text-6xl font-bold text-slate-200 mt-8">File Manipulator</h1>
+      <p class="mt-6">This Anti-Forensics tool allows you to modify existing file metadata. Start by picking a file.</p>
+      <div class="mt-4">
+        <button id="upload-btn"
+          class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]">
+          Upload File
+        </button>
+        <span id="fileNameSpan"></span>
+      </div>
+
+      <h2 class="text-2xl font-bold mt-4">Original File Data</h2>
+      <div class="flex flex-col gap-2 p-2">
+        <label>Text Value: </label>
+        <input type="text" id="original_text_value" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+        <label>Creation Date: </label>
+        <input type="text" id="original_creation_date" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+        <label>Last Changed Date: </label>
+        <input type="text" id="original_last_changed_date" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+        <label>Last Used Date: </label>
+        <input type="text" id="original_last_use_date" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+      </div>
+
+      <h2 class="text-2xl font-bold mt-8">Edit your File here</h2>
+      <div class="flex flex-col gap-2 p-2">
+        <label>Text Value: </label>
+        <input type="text" id="modified_text_value"
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+        <label>Creation Date: </label>
+        <input type="text" id="modified_creation_date"
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+        <label>Last Changed Date: </label>
+        <input type="text" id="modified_last_changed_date"
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+        <label>Last Used Date: </label>
+        <input type="text" id="modified_last_use_date"
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+      </div>
+      <br />
+      <div>
+        <button id="modify-btn"
+          class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]">
+          Modify File</button>
+        <span id="fileModifiedSpan"></span>
+      </div>
     </div>
+  </div>
 
-    <h3 class="greenFont">Original File Data</h3>
-    <div class="file_details">
-      <label>Text Value: </label>
-      <input type="text" id="original_text_value" readonly />
+  <script>
+    const uploadButton = document.getElementById("upload-btn");
+    let creationDate = document.getElementById("original_creation_date");
+    let textValue = document.getElementById("original_text_value");
+    let lastChanged = document.getElementById("original_last_changed_date");
+    let lastUsed = document.getElementById("original_last_use_date");
+    let fileNameSpan = document.getElementById("fileNameSpan");
+    let fileModifiedSpan = document.getElementById("fileModifiedSpan");
 
-      <label>Creation Date: </label>
-      <input type="text" id="original_creation_date" readonly />
+    const modifyButton = document.getElementById("modify-btn");
+    let modified_creationDate = document.getElementById(
+      "modified_creation_date"
+    );
+    let modified_textValue = document.getElementById("modified_text_value");
+    let modified_lastChanged = document.getElementById(
+      "modified_last_changed_date"
+    );
+    let modified_lastUsed = document.getElementById("modified_last_use_date");
 
-      <label>Last Changed Date: </label>
-      <input type="text" id="original_last_changed_date" readonly />
 
-      <label>Last Used Date: </label>
-      <input type="text" id="original_last_use_date" readonly />
-    </div>
+    uploadButton.addEventListener("click", () => {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = ".txt,.jpg,.png,.gif";
 
-    <h3 class="greenFont">Edit your File here</h3>
-    <div class="file_details">
-      <label>Text Value: </label>
-      <input type="text" id="modified_text_value" />
+      input.addEventListener("change", () => {
+        const file = input.files[0];
 
-      <label>Creation Date: </label>
-      <input type="text" id="modified_creation_date" />
+        fileNameSpan.textContent = file.name;
+        window.api.send("originalFile", file.path);
 
-      <label>Last Changed Date: </label>
-      <input type="text" id="modified_last_changed_date" />
-
-      <label>Last Used Date: </label>
-      <input type="text" id="modified_last_use_date" />
-    </div>
-    <br/>
-    <div class="filepicker">
-      <button id="modify-btn">Modify File</button>
-      <span id="fileModifiedSpan"></span>
-    </div>
-
-    <script>
-      const uploadButton = document.getElementById("upload-btn");
-      let creationDate = document.getElementById("original_creation_date");
-      let textValue = document.getElementById("original_text_value");
-      let lastChanged = document.getElementById("original_last_changed_date");
-      let lastUsed = document.getElementById("original_last_use_date");
-      let fileNameSpan = document.getElementById("fileNameSpan");
-      let fileModifiedSpan = document.getElementById("fileModifiedSpan");
-
-      const modifyButton = document.getElementById("modify-btn");
-      let modified_creationDate = document.getElementById(
-        "modified_creation_date"
-      );
-      let modified_textValue = document.getElementById("modified_text_value");
-      let modified_lastChanged = document.getElementById(
-        "modified_last_changed_date"
-      );
-      let modified_lastUsed = document.getElementById("modified_last_use_date");
-
-   
-      uploadButton.addEventListener("click", () => {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = ".txt,.jpg,.png,.gif";
-
-        input.addEventListener("change", () => {
-          const file = input.files[0];
-
-          fileNameSpan.textContent = file.name;
-          window.api.send("originalFile", file.path);
-
-          window.api.receiveOnce("originalFileReply", (data) => {
-            console.log("Recieved: ", data);
-            lastUsed.value = data.lastUsed;
-            creationDate.value = data.creationDate;
-            lastChanged.value = data.lastChanged;
-            textValue.value = data.textValue;
-          });
+        window.api.receiveOnce("originalFileReply", (data) => {
+          console.log("Recieved: ", data);
+          lastUsed.value = data.lastUsed;
+          creationDate.value = data.creationDate;
+          lastChanged.value = data.lastChanged;
+          textValue.value = data.textValue;
         });
-        input.click();
       });
+      input.click();
+    });
 
-      modifyButton.addEventListener("click", () => {
-        const modifiedFiles = {};
+    modifyButton.addEventListener("click", () => {
+      const modifiedFiles = {};
 
-        if (modified_textValue.value && modified_textValue.value.length) {
-          modifiedFiles.textValue = modified_textValue.value;
-        }
+      if (modified_textValue.value && modified_textValue.value.length) {
+        modifiedFiles.textValue = modified_textValue.value;
+      }
 
-        if (modified_creationDate.value && modified_creationDate.value.length) {
-          modifiedFiles.creationDate = new Date(modified_creationDate.value);
-        }
+      if (modified_creationDate.value && modified_creationDate.value.length) {
+        modifiedFiles.creationDate = new Date(modified_creationDate.value);
+      }
 
-        if (modified_lastChanged.value && modified_lastChanged.value.length) {
-          modifiedFiles.lastChanged = new Date(modified_lastChanged.value);
-        }
+      if (modified_lastChanged.value && modified_lastChanged.value.length) {
+        modifiedFiles.lastChanged = new Date(modified_lastChanged.value);
+      }
 
-        if (modified_lastUsed.value && modified_lastUsed.value.length) {
-          modifiedFiles.lastUsed = new Date(modified_lastUsed.value);
-        }
+      if (modified_lastUsed.value && modified_lastUsed.value.length) {
+        modifiedFiles.lastUsed = new Date(modified_lastUsed.value);
+      }
 
-        window.api.send("modifiedFiles", modifiedFiles);
-        fileModifiedSpan.textContent = "File succesfully modified!";
-      });
-    </script>
-  </body>
+      window.api.send("modifiedFiles", modifiedFiles);
+      fileModifiedSpan.textContent = "File succesfully modified!";
+    });
+  </script>
+</body>
+
 </html>

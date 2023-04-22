@@ -92,4 +92,7 @@ typings/
 out/
 
 # Custom
+# Potential output folder
 dist/
+# Generated styles
+src/gen/**/*.css
