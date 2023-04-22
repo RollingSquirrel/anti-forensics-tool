@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs/promises");
-//const { lutimes } = require("utimes");
+const { lutimes } = require("utimes");
 
 let normPath = "";
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -12,8 +12,8 @@ if (require("electron-squirrel-startup")) {
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 700,
-    height: 670,
+    width: 900,
+    height: 1100,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
