@@ -8,7 +8,12 @@
   <body>
     <h1 class="greenFont">File Manipulator</h1>
     <div class="filepicker">
-      <button id="upload-btn" class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]">Upload File</button>
+      <button
+        id="upload-btn"
+        class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]"
+      >
+        Upload File
+      </button>
       <span id="fileNameSpan"></span>
     </div>
 
@@ -41,8 +46,11 @@
       <label>Last Used Date: </label>
       <input type="text" id="modified_last_use_date" />
     </div>
-
-    <button id="modify-btn">Modify File</button>
+    <br/>
+    <div class="filepicker">
+      <button id="modify-btn">Modify File</button>
+      <span id="fileModifiedSpan"></span>
+    </div>
 
     <script>
       const uploadButton = document.getElementById("upload-btn");
@@ -51,6 +59,7 @@
       let lastChanged = document.getElementById("original_last_changed_date");
       let lastUsed = document.getElementById("original_last_use_date");
       let fileNameSpan = document.getElementById("fileNameSpan");
+      let fileModifiedSpan = document.getElementById("fileModifiedSpan");
 
       const modifyButton = document.getElementById("modify-btn");
       let modified_creationDate = document.getElementById(
@@ -62,11 +71,7 @@
       );
       let modified_lastUsed = document.getElementById("modified_last_use_date");
 
-      async function updateLastEdited(filePath) {
-        const now = new Date("1980-01-01");
-        await fs.utimes(filePath, now, now);
-      }
-
+   
       uploadButton.addEventListener("click", () => {
         const input = document.createElement("input");
         input.type = "file";
@@ -109,6 +114,7 @@
         }
 
         window.api.send("modifiedFiles", modifiedFiles);
+        fileModifiedSpan.textContent = "File succesfully modified!";
       });
     </script>
   </body>
