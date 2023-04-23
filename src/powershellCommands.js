@@ -1,6 +1,6 @@
 const { exec } = require("child_process");
 
-// Replace with the actual path to your file
+
 
 async function changeCreationTime(filePath, creationTime) {
   const year = creationTime.getFullYear();
@@ -8,7 +8,7 @@ async function changeCreationTime(filePath, creationTime) {
   const day = String(creationTime.getDate()).padStart(2, "0");
 
   const creationTimeFormatted = `${year}-${month}-${day}`;
-  //const filePath = '"C:\Users\lukas\OneDrive\Dokumente\testfile.txt"';
+  
   const command = `powershell.exe -Command "Set-ItemProperty -Path '${filePath}' -Name CreationTime -Value '${creationTimeFormatted}'"`;
   exec(command, (error, stdout, stderr) => {
     if (error) {
