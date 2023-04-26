@@ -22,10 +22,6 @@
 
       <h2 class="text-2xl font-bold mt-4">Original File Data</h2>
       <div class="flex flex-col gap-2 p-2">
-        <label>Text Value: </label>
-        <input type="text" id="original_text_value" readonly
-          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
-
         <label>Creation Date: </label>
         <input type="text" id="original_creation_date" readonly
           class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
@@ -37,14 +33,14 @@
         <label>Last Used Date: </label>
         <input type="text" id="original_last_use_date" readonly
           class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+        <label id="TextValueLabelOrg" class="hidden">Text Value: </label>
+        <input type="hidden" id="original_text_value" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
       </div>
 
       <h2 class="text-2xl font-bold mt-8">Edit your File here</h2>
       <div class="flex flex-col gap-2 p-2">
-        <label>Text Value: </label>
-        <input type="text" id="modified_text_value"
-          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
-
         <label>Creation Date: </label>
         <input type="text" id="modified_creation_date"
           class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
@@ -56,9 +52,14 @@
         <label>Last Used Date: </label>
         <input type="text" id="modified_last_use_date"
           class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+        <label id="TextValueLabelMod" class="hidden">Text Value: </label>
+        <input type="hidden" id="modified_text_value"
+          class="TextValueInput p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+
       </div>
       <br />
-      <div class="flex flex-row justify-end p-2">
+      <div class="flex flex-row justify-start p-2">
         <button id="modify-btn"
           class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]">
           Modify File</button>
@@ -75,6 +76,7 @@
     let lastUsed = document.getElementById("original_last_use_date");
     let fileNameSpan = document.getElementById("fileNameSpan");
     let fileModifiedSpan = document.getElementById("fileModifiedSpan");
+    let textValueInputLabel = document.getElementById("TextValueLabelOrg")
 
     const modifyButton = document.getElementById("modify-btn");
     let modified_creationDate = document.getElementById(
@@ -85,6 +87,7 @@
       "modified_last_changed_date"
     );
     let modified_lastUsed = document.getElementById("modified_last_use_date");
+    let modified_textValueInputLabel = document.getElementById("TextValueLabelMod")
 
 
     uploadButton.addEventListener("click", () => {
@@ -94,7 +97,15 @@
 
       input.addEventListener("change", () => {
         const file = input.files[0];
+        console.log(file.type)
+        if (file.type = "text/plain") {
+          textValueInputLabel.classList.remove("hidden")
+          textValue.setAttribute('type', 'text');
+          modified_textValueInputLabel.classList.remove("hidden")
+          modified_textValue.setAttribute("type", "text")
 
+
+        }
         fileNameSpan.textContent = file.name;
         window.api.send("originalFile", file.path);
 

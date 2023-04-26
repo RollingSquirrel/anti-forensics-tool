@@ -13,7 +13,7 @@ const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 900,
-    height: 1100,
+    height: 1000,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
@@ -25,7 +25,7 @@ const createWindow = () => {
   mainWindow.loadFile(path.join(__dirname, "index.html"));
 
   // Open the DevTools.
- // mainWindow.webContents.openDevTools();
+  //mainWindow.webContents.openDevTools();
 
   ipcMain.on("originalFile", async (event, arg) => {
     normPath = path.normalize(arg);
