@@ -2,6 +2,8 @@ const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs/promises");
 const {changeCreationTime} = require("./powershellCommands") 
+const os = require('os');
+const { Console } = require("console");
 
 let normPath = "";
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -72,7 +74,8 @@ ipcMain.on("modifiedFiles", async (event, arg) => {
       });
     }
     if (arg.creationDate) {
-      await changeCreationTime(normPath, arg.creationDate)
+      let platform = process.platform
+      await changeCreationTime(normPath, arg.creationDate, platform)
     }
     if (arg.lastChanged) {
       await fs.utimes(normPath, arg.lastChanged, arg.lastChanged, (err) => {
