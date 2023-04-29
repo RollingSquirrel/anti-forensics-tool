@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @font-face {
-	font-family: 'Allerta';
+  font-family: 'Allerta';
   /* reference font in assets folder - path relative to gen folder */
-	src: url('./../assets/fonts/Allerta-Regular.woff2') format('truetype');
-	font-weight: normal;
-	font-style: normal;
+  src: url('./../assets/fonts/Allerta-Regular.woff2') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
 body {
