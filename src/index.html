@@ -70,24 +70,24 @@
 
   <script>
     const uploadButton = document.getElementById("upload-btn");
-    let creationDate = document.getElementById("original_creation_date");
-    let textValue = document.getElementById("original_text_value");
-    let lastChanged = document.getElementById("original_last_changed_date");
-    let lastUsed = document.getElementById("original_last_use_date");
-    let fileNameSpan = document.getElementById("fileNameSpan");
-    let fileModifiedSpan = document.getElementById("fileModifiedSpan");
-    let textValueInputLabel = document.getElementById("TextValueLabelOrg")
+    const creationDate = document.getElementById("original_creation_date");
+    const textValue = document.getElementById("original_text_value");
+    const lastChanged = document.getElementById("original_last_changed_date");
+    const lastUsed = document.getElementById("original_last_use_date");
+    const fileNameSpan = document.getElementById("fileNameSpan");
+    const fileModifiedSpan = document.getElementById("fileModifiedSpan");
+    const textValueInputLabel = document.getElementById("TextValueLabelOrg")
 
     const modifyButton = document.getElementById("modify-btn");
-    let modified_creationDate = document.getElementById(
+    const modifiedCreationDate = document.getElementById(
       "modified_creation_date"
     );
-    let modified_textValue = document.getElementById("modified_text_value");
-    let modified_lastChanged = document.getElementById(
+    const modifiedTextValue = document.getElementById("modified_text_value");
+    const modifiedLastChanged = document.getElementById(
       "modified_last_changed_date"
     );
-    let modified_lastUsed = document.getElementById("modified_last_use_date");
-    let modified_textValueInputLabel = document.getElementById("TextValueLabelMod")
+    const modifiedLastUsed = document.getElementById("modified_last_use_date");
+    const modifiedTextValueInputLabel = document.getElementById("TextValueLabelMod")
 
 
     uploadButton.addEventListener("click", () => {
@@ -98,13 +98,23 @@
       input.addEventListener("change", () => {
         const file = input.files[0];
 
-        if (file.type = "text/plain") {
+        // only show text option on text files
+        if (file.type === "text/plain") {
           textValueInputLabel.classList.remove("hidden")
           textValue.setAttribute('type', 'text');
-          modified_textValueInputLabel.classList.remove("hidden")
-          modified_textValue.setAttribute("type", "text")
+          modifiedTextValueInputLabel.classList.remove("hidden")
+          modifiedTextValue.setAttribute("type", "text")
+        } else {
+          textValueInputLabel.classList.contains("hidden") ? null : textValueInputLabel.classList.add("hidden");
+          modifiedTextValueInputLabel.classList.contains("hidden") ? null : modifiedTextValueInputLabel.classList.add("hidden");
+
+          textValue.setAttribute('type', 'hidden');
+          modifiedTextValue.setAttribute("type", "hidden")
+
+          // clear the field so the value does not impact file modification
+          modifiedTextValue.value = "";
         }
-        
+
         fileNameSpan.textContent = file.name;
         window.api.send("originalFile", file.path);
 
@@ -114,27 +124,50 @@
           lastChanged.value = data.lastChanged;
           textValue.value = data.textValue;
         });
+
+        // remove the input element from the DOM
+        input.remove();
       });
+
       input.click();
     });
 
     modifyButton.addEventListener("click", () => {
+
+      // regex for date input validation (US format: YYYY-MM-DD)
+      const usDateRegEx = /^\d{4}-\d{2}-\d{2}$/;
+
       const modifiedFiles = {};
 
-      if (modified_textValue.value && modified_textValue.value.length) {
-        modifiedFiles.textValue = modified_textValue.value;
+      if (modifiedTextValue.value && modifiedTextValue.value.length) {
+        modifiedFiles.textValue = modifiedTextValue.value;
       }
 
-      if (modified_creationDate.value && modified_creationDate.value.length) {
-        modifiedFiles.creationDate = new Date(modified_creationDate.value);
+      if (modifiedCreationDate.value && modifiedCreationDate.value.length) {
+        if (!usDateRegEx.test(modifiedCreationDate.value)) {
+          fileModifiedSpan.textContent = "Invalid date format for creation date. Please use YYYY-MM-DD";
+          return;
+        }
+
+        modifiedFiles.creationDate = new Date(modifiedCreationDate.value);
       }
 
-      if (modified_lastChanged.value && modified_lastChanged.value.length) {
-        modifiedFiles.lastChanged = new Date(modified_lastChanged.value);
+      if (modifiedLastChanged.value && modifiedLastChanged.value.length) {
+        if (!usDateRegEx.test(modifiedLastChanged.value)) {
+          fileModifiedSpan.textContent = "Invalid date format for last changed date. Please use YYYY-MM-DD";
+          return;
+        }
+
+        modifiedFiles.lastChanged = new Date(modifiedLastChanged.value);
       }
 
-      if (modified_lastUsed.value && modified_lastUsed.value.length) {
-        modifiedFiles.lastUsed = new Date(modified_lastUsed.value);
+      if (modifiedLastUsed.value && modifiedLastUsed.value.length) {
+        if (!usDateRegEx.test(modifiedLastUsed.value)) {
+          fileModifiedSpan.textContent = "Invalid date format for last used date. Please use YYYY-MM-DD";
+          return;
+        }
+
+        modifiedFiles.lastUsed = new Date(modifiedLastUsed.value);
       }
 
       window.api.send("modifiedFiles", modifiedFiles);
