@@ -1,9 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs/promises");
-const {changeCreationTime} = require("./powershellCommands") 
-const os = require('os');
-const { Console } = require("console");
+const { changeCreationTime } = require("./powershellCommands")
 
 let normPath = "";
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -22,6 +20,9 @@ const createWindow = () => {
       contextIsolation: true,
     },
   });
+
+  // remove menu bar
+  mainWindow.removeMenu();
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "index.html"));
