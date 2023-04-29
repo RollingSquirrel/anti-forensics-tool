@@ -17,7 +17,7 @@
         <div class="mt-4">
           <button
             id="upload-btn"
-            class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]"
+            class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem] mr-4"
           >
             Select File
           </button>
@@ -64,6 +64,7 @@
           <label>Creation Date: </label>
           <input
             type="text"
+            placeholder="Format: YYYY-MM-DD"
             id="modified_creation_date"
             class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
           />
@@ -71,6 +72,7 @@
           <label>Last Changed Date: </label>
           <input
             type="text"
+            placeholder="Format: YYYY-MM-DD"
             id="modified_last_changed_date"
             class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
           />
@@ -78,12 +80,14 @@
           <label>Last Used Date: </label>
           <input
             type="text"
+            placeholder="Format: YYYY-MM-DD"
             id="modified_last_use_date"
             class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
           />
           <label id="TextValueLabelMod" class="hidden">Text Value: </label>
           <input
             type="hidden"
+            placeholder="My new Text Value"
             id="modified_text_value"
             class="TextValueInput p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
           />
@@ -110,6 +114,7 @@
       const fileNameSpan = document.getElementById('fileNameSpan');
       const fileModifiedSpan = document.getElementById('fileModifiedSpan');
       const textValueInputLabel = document.getElementById('TextValueLabelOrg');
+     
 
       const modifyButton = document.getElementById('modify-btn');
       const modifiedCreationDate = document.getElementById(
@@ -128,7 +133,7 @@
       uploadButton.addEventListener('click', () => {
         const input = document.createElement('input');
         input.type = 'file';
-        input.accept = '.txt,.jpg,.png,.gif';
+        input.accept = '.txt, .pdf, .docx';
 
         input.addEventListener('change', () => {
           const file = input.files[0];
