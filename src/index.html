@@ -97,20 +97,18 @@
 
       input.addEventListener("change", () => {
         const file = input.files[0];
-        console.log(file.type)
+
         if (file.type = "text/plain") {
           textValueInputLabel.classList.remove("hidden")
           textValue.setAttribute('type', 'text');
           modified_textValueInputLabel.classList.remove("hidden")
           modified_textValue.setAttribute("type", "text")
-
-
         }
+        
         fileNameSpan.textContent = file.name;
         window.api.send("originalFile", file.path);
 
         window.api.receiveOnce("originalFileReply", (data) => {
-          console.log("Recieved: ", data);
           lastUsed.value = data.lastUsed;
           creationDate.value = data.creationDate;
           lastChanged.value = data.lastChanged;

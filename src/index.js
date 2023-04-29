@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const fs = require("fs/promises");
-const { changeCreationTime } = require("./powershellCommands")
+const { changeCreationTime } = require("./creation-time-command")
 
 let normPath = "";
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -62,7 +62,9 @@ const createWindow = () => {
 
 ipcMain.on("modifiedFiles", async (event, arg) => {
   console.log(arg);
+
   try {
+    // if text provided we write it to the file
     if (arg.textValue) {
       await fs.writeFile(normPath, arg.textValue, "utf8", (err) => {
         if (err) {
@@ -74,10 +76,14 @@ ipcMain.on("modifiedFiles", async (event, arg) => {
         );
       });
     }
+
+    // if creation date provided we change it
     if (arg.creationDate) {
       let platform = process.platform
       await changeCreationTime(normPath, arg.creationDate, platform)
     }
+
+    // if last changed date provided we change it
     if (arg.lastChanged) {
       await fs.utimes(normPath, arg.lastChanged, arg.lastChanged, (err) => {
         if (err) {
@@ -89,6 +95,8 @@ ipcMain.on("modifiedFiles", async (event, arg) => {
         );
       });
     }
+
+    // if last used date provided we change it
     if (arg.lastUsed) {
       fs.stat(normPath, (err, stats) => {
         if (err) {
