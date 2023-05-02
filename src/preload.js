@@ -10,7 +10,9 @@ const {
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld(
   // access in browser with window.api.send(...)
+
   "api", {
+  platform: process.platform,
   send: (channel, data) => {
     // whitelist channels
     let validChannels = ["originalFile", "modifiedFiles"];

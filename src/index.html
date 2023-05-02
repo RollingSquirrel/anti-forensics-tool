@@ -1,228 +1,197 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>File Manipulator</title>
-    <link href="./gen/index.css" rel="stylesheet" />
-  </head>
 
-  <body>
-    <div class="flex flex-row justify-center my-4 mx-2">
-      <div class="max-w-screen-xl">
-        <h1 class="text-6xl font-bold text-slate-200 mt-8">File Manipulator</h1>
-        <p class="mt-6">
-          This Anti-Forensics tool allows you to modify existing file metadata.
-          Start by picking a file.
-        </p>
-        <div class="mt-4">
-          <button
-            id="upload-btn"
-            class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem] mr-4"
-          >
-            Select File
-          </button>
-          <span id="fileNameSpan"></span>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <title>File Manipulator</title>
+  <link href="./gen/index.css" rel="stylesheet" />
+</head>
 
-        <h2 class="text-2xl font-bold mt-4">Original File Data</h2>
-        <div class="flex flex-col gap-2 p-2">
-          <label>Creation Date: </label>
-          <input
-            type="text"
-            id="original_creation_date"
-            readonly
-            class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
-          />
+<body>
+  <div class="flex flex-row justify-center my-4 mx-2">
+    <div class="max-w-screen-xl">
+      <h1 class="text-6xl font-bold text-slate-200 mt-8">File Manipulator</h1>
+      <p class="mt-6">
+        This Anti-Forensics tool allows you to modify existing file metadata.
+        Start by picking a file.
+      </p>
+      <div class="mt-4">
+        <button id="upload-btn"
+          class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem] mr-4">
+          Select File
+        </button>
+        <span id="fileNameSpan"></span>
+      </div>
 
-          <label>Last Changed Date: </label>
-          <input
-            type="text"
-            id="original_last_changed_date"
-            readonly
-            class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
-          />
+      <h2 class="text-2xl font-bold mt-4">Original File Data</h2>
+      <div class="flex flex-col gap-2 p-2">
+        <label>Creation Date: </label>
+        <input type="text" id="original_creation_date" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
 
-          <label>Last Used Date: </label>
-          <input
-            type="text"
-            id="original_last_use_date"
-            readonly
-            class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
-          />
+        <label>Last Changed Date: </label>
+        <input type="text" id="original_last_changed_date" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
 
-          <label id="TextValueLabelOrg" class="hidden">Text Value: </label>
-          <input
-            type="hidden"
-            id="original_text_value"
-            readonly
-            class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
-          />
-        </div>
+        <label>Last Used Date: </label>
+        <input type="text" id="original_last_use_date" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
 
-        <h2 class="text-2xl font-bold mt-8">Edit your File here</h2>
-        <div class="flex flex-col gap-2 p-2">
-          <label>Creation Date: </label>
-          <input
-            type="text"
-            placeholder="Format: YYYY-MM-DD"
-            id="modified_creation_date"
-            class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
-          />
+        <label id="TextValueLabelOrg" class="hidden">Text Value: </label>
+        <input type="hidden" id="original_text_value" readonly
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+      </div>
 
-          <label>Last Changed Date: </label>
-          <input
-            type="text"
-            placeholder="Format: YYYY-MM-DD"
-            id="modified_last_changed_date"
-            class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
-          />
+      <h2 class="text-2xl font-bold mt-8">Edit your File here</h2>
+      <div class="flex flex-col gap-2 p-2">
+        <label>Creation Date: </label>
+        <input type="text" placeholder="Format: YYYY-MM-DD" id="modified_creation_date"
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
 
-          <label>Last Used Date: </label>
-          <input
-            type="text"
-            placeholder="Format: YYYY-MM-DD"
-            id="modified_last_use_date"
-            class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
-          />
-          <label id="TextValueLabelMod" class="hidden">Text Value: </label>
-          <input
-            type="hidden"
-            placeholder="My new Text Value"
-            id="modified_text_value"
-            class="TextValueInput p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2"
-          />
-        </div>
-        <br />
-        <div class="flex flex-row justify-start p-2 item-center">
-          <button
-            id="modify-btn"
-            class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]"
-          >
-            Modify File
-          </button>
-          <span id="fileModifiedSpan" class="ml-5 mt-2"></span>
-        </div>
+        <label>Last Changed Date: </label>
+        <input type="text" placeholder="Format: YYYY-MM-DD" id="modified_last_changed_date"
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+
+        <label>Last Used Date: </label>
+        <input type="text" placeholder="Format: YYYY-MM-DD" id="modified_last_use_date"
+          class="p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+        <label id="TextValueLabelMod" class="hidden">Text Value: </label>
+        <input type="hidden" placeholder="My new Text Value" id="modified_text_value"
+          class="TextValueInput p-2 border-none rounded-md resize-none bg-slate-950 focus:bg-slate-900 outline-2 outline outline-slate-400 focus:outline focus:outline-2" />
+      </div>
+      <br />
+      <div class="flex flex-row justify-start p-2 item-center">
+        <button id="modify-btn"
+          class="px-3 py-2 text-green-600 transition-colors rounded-md outline outline-2 bg-slate-950 hover:bg-slate-900 outline-green-900 min-w-[6rem]">
+          Modify File
+        </button>
+        <span id="fileModifiedSpan" class="ml-5 mt-2"></span>
       </div>
     </div>
+  </div>
 
-    <script>
-      const uploadButton = document.getElementById('upload-btn');
-      const creationDate = document.getElementById('original_creation_date');
-      const textValue = document.getElementById('original_text_value');
-      const lastChanged = document.getElementById('original_last_changed_date');
-      const lastUsed = document.getElementById('original_last_use_date');
-      const fileNameSpan = document.getElementById('fileNameSpan');
-      const fileModifiedSpan = document.getElementById('fileModifiedSpan');
-      const textValueInputLabel = document.getElementById('TextValueLabelOrg');
+  <script>
+    //const { ipcRenderer } = require('electron')
+    const uploadButton = document.getElementById('upload-btn');
+    const creationDate = document.getElementById('original_creation_date');
+    const textValue = document.getElementById('original_text_value');
+    const lastChanged = document.getElementById('original_last_changed_date');
+    const lastUsed = document.getElementById('original_last_use_date');
+    const fileNameSpan = document.getElementById('fileNameSpan');
+    const fileModifiedSpan = document.getElementById('fileModifiedSpan');
+    const textValueInputLabel = document.getElementById('TextValueLabelOrg');
+    let platform = window.api.platform;
 
-     
+    const modifyButton = document.getElementById('modify-btn');
+    const modifiedCreationDate = document.getElementById(
+      'modified_creation_date'
+    );
+    const modifiedTextValue = document.getElementById('modified_text_value');
+    const modifiedLastChanged = document.getElementById(
+      'modified_last_changed_date'
+    );
+    const modifiedLastUsed = document.getElementById(
+      'modified_last_use_date'
+    );
+    const modifiedTextValueInputLabel =
+      document.getElementById('TextValueLabelMod');
 
-      const modifyButton = document.getElementById('modify-btn');
-      const modifiedCreationDate = document.getElementById(
-        'modified_creation_date'
-      );
-      const modifiedTextValue = document.getElementById('modified_text_value');
-      const modifiedLastChanged = document.getElementById(
-        'modified_last_changed_date'
-      );
-      const modifiedLastUsed = document.getElementById(
-        'modified_last_use_date'
-      );
-      const modifiedTextValueInputLabel =
-        document.getElementById('TextValueLabelMod');
+    console.log(`The platform is ${window.api.platform}`);
+    if (platform !== "win32") {
+      modifiedCreationDate.value = "Your platform does not support file creation time changes."
+      modifiedCreationDate.readOnly = true;
+    }
 
-   
-      
+    uploadButton.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.txt, .pdf, .docx';
 
-      uploadButton.addEventListener('click', () => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = '.txt, .pdf, .docx';
+      input.addEventListener('change', () => {
+        const file = input.files[0];
 
-        input.addEventListener('change', () => {
-          const file = input.files[0];
+        // only show text option on text files
+        if (file.type === 'text/plain') {
+          textValueInputLabel.classList.remove('hidden');
+          textValue.setAttribute('type', 'text');
+          modifiedTextValueInputLabel.classList.remove('hidden');
+          modifiedTextValue.setAttribute('type', 'text');
+        } else {
+          textValueInputLabel.classList.contains('hidden')
+            ? null
+            : textValueInputLabel.classList.add('hidden');
+          modifiedTextValueInputLabel.classList.contains('hidden')
+            ? null
+            : modifiedTextValueInputLabel.classList.add('hidden');
 
-          // only show text option on text files
-          if (file.type === 'text/plain') {
-            textValueInputLabel.classList.remove('hidden');
-            textValue.setAttribute('type', 'text');
-            modifiedTextValueInputLabel.classList.remove('hidden');
-            modifiedTextValue.setAttribute('type', 'text');
-          } else {
-            textValueInputLabel.classList.contains('hidden')
-              ? null
-              : textValueInputLabel.classList.add('hidden');
-            modifiedTextValueInputLabel.classList.contains('hidden')
-              ? null
-              : modifiedTextValueInputLabel.classList.add('hidden');
+          textValue.setAttribute('type', 'hidden');
+          modifiedTextValue.setAttribute('type', 'hidden');
 
-            textValue.setAttribute('type', 'hidden');
-            modifiedTextValue.setAttribute('type', 'hidden');
+          // clear the field so the value does not impact file modification
+          modifiedTextValue.value = '';
+        }
 
-            // clear the field so the value does not impact file modification
-            modifiedTextValue.value = '';
-          }
+        fileNameSpan.textContent = file.name;
+        window.api.send('originalFile', file.path);
 
-          fileNameSpan.textContent = file.name;
-          window.api.send('originalFile', file.path);
-
-          window.api.receiveOnce('originalFileReply', (data) => {
-            lastUsed.value = data.lastUsed;
-            creationDate.value = data.creationDate;
-            lastChanged.value = data.lastChanged;
-            textValue.value = data.textValue;
-          });
-
-          // remove the input element from the DOM
-          input.remove();
+        window.api.receiveOnce('originalFileReply', (data) => {
+          lastUsed.value = data.lastUsed;
+          creationDate.value = data.creationDate;
+          lastChanged.value = data.lastChanged;
+          textValue.value = data.textValue;
         });
 
-        input.click();
+        // remove the input element from the DOM
+        input.remove();
       });
 
-      modifyButton.addEventListener('click', () => {
-        // regex for date input validation (US format: YYYY-MM-DD)
-        const usDateRegEx = /^\d{4}-\d{2}-\d{2}$/;
+      input.click();
+    });
 
-        const modifiedFiles = {};
+    modifyButton.addEventListener('click', () => {
+      // regex for date input validation (US format: YYYY-MM-DD)
+      const usDateRegEx = /^\d{4}-\d{2}-\d{2}$/;
 
-        if (modifiedTextValue.value && modifiedTextValue.value.length) {
-          modifiedFiles.textValue = modifiedTextValue.value;
+      const modifiedFiles = {};
+
+      if (modifiedTextValue.value && modifiedTextValue.value.length) {
+        modifiedFiles.textValue = modifiedTextValue.value;
+      }
+
+      if (modifiedCreationDate.value && modifiedCreationDate.value.length) {
+        if (!usDateRegEx.test(modifiedCreationDate.value)) {
+          fileModifiedSpan.textContent =
+            'Invalid date format for creation date. Please use YYYY-MM-DD';
+          return;
         }
 
-        if (modifiedCreationDate.value && modifiedCreationDate.value.length) {
-          if (!usDateRegEx.test(modifiedCreationDate.value)) {
-            fileModifiedSpan.textContent =
-              'Invalid date format for creation date. Please use YYYY-MM-DD';
-            return;
-          }
+        modifiedFiles.creationDate = new Date(modifiedCreationDate.value);
+      }
 
-          modifiedFiles.creationDate = new Date(modifiedCreationDate.value);
+      if (modifiedLastChanged.value && modifiedLastChanged.value.length) {
+        if (!usDateRegEx.test(modifiedLastChanged.value)) {
+          fileModifiedSpan.textContent =
+            'Invalid date format for last changed date. Please use YYYY-MM-DD';
+          return;
         }
 
-        if (modifiedLastChanged.value && modifiedLastChanged.value.length) {
-          if (!usDateRegEx.test(modifiedLastChanged.value)) {
-            fileModifiedSpan.textContent =
-              'Invalid date format for last changed date. Please use YYYY-MM-DD';
-            return;
-          }
+        modifiedFiles.lastChanged = new Date(modifiedLastChanged.value);
+      }
 
-          modifiedFiles.lastChanged = new Date(modifiedLastChanged.value);
+      if (modifiedLastUsed.value && modifiedLastUsed.value.length) {
+        if (!usDateRegEx.test(modifiedLastUsed.value)) {
+          fileModifiedSpan.textContent =
+            'Invalid date format for last used date. Please use YYYY-MM-DD';
+          return;
         }
 
-        if (modifiedLastUsed.value && modifiedLastUsed.value.length) {
-          if (!usDateRegEx.test(modifiedLastUsed.value)) {
-            fileModifiedSpan.textContent =
-              'Invalid date format for last used date. Please use YYYY-MM-DD';
-            return;
-          }
+        modifiedFiles.lastUsed = new Date(modifiedLastUsed.value);
+      }
 
-          modifiedFiles.lastUsed = new Date(modifiedLastUsed.value);
-        }
+      window.api.send('modifiedFiles', modifiedFiles);
+      fileModifiedSpan.textContent = 'File successfully modified!';
+    });
+  </script>
+</body>
 
-        window.api.send('modifiedFiles', modifiedFiles);
-        fileModifiedSpan.textContent = 'File successfully modified!';
-      });
-    </script>
-  </body>
 </html>

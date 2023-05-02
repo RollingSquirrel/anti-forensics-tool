@@ -26,9 +26,13 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "index.html"));
-
+  if (process.platform !== 'win32') {
+    mainWindow.webContents.on('did-finish-load', () => {
+      mainWindow.webContents.send('platform', 'not_supported');
+    });
+  }
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
+ // mainWindow.webContents.openDevTools();
 
   ipcMain.on("originalFile", async (event, arg) => {
     normPath = path.normalize(arg);
@@ -134,6 +138,7 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
+
 
 app.on("activate", () => {
   // On OS X it's common to re-create a window in the app when the
