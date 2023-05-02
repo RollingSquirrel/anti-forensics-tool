@@ -7,11 +7,12 @@ async function changeCreationTime(filePath, creationTime, platform) {
 
   const creationTimeFormatted = `${year}-${month}-${day}`;
   let platformSpecificCommand = '';
+  console.log("Platform: "+filePath)
 
   if (platform == 'win32') {
     platformSpecificCommand = `powershell.exe -Command "Set-ItemProperty -Path '${filePath}' -Name CreationTime -Value '${creationTimeFormatted}'"`;
   } else {
-    platformSpecificCommand = `touch -c -d ${creationTimeFormatted} ${filePath}`;
+    throw new Error(`Unsupported platform: ${platform}`)
   }
 
   await new Promise((resolve, reject) => {
