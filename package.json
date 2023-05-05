@@ -22,6 +22,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "electron-builder": "^24.3.0",
     "electron-squirrel-startup": "^1.0.0"
   },
   "devDependencies": {
