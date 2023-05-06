@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   packagerConfig: {},
   rebuildConfig: {},
@@ -5,38 +7,37 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        outputDirectory: '.'
+        options: {
+          icon: path.join(__dirname, 'static', 'icon.png'),
+        },
       },
     },
     {
       name: '@electron-forge/maker-zip',
       platforms: ['darwin'],
       config: {
-        outputDirectory: '.'
+        icon: path.join(__dirname, 'static', 'icon.png'),
       },
     },
     {
       name: '@electron-forge/maker-deb',
       config: {
-        outputDirectory: '.'
+        icon: path.join(__dirname, 'static', 'icon.png'),
       },
     },
     {
       name: '@electron-forge/maker-rpm',
       config: {
-        outputDirectory: '.'
+        icon: path.join(__dirname, 'static', 'icon.png'),
       },
     },
     {
       name: '@electron-forge/maker-deb',
       config: {
         options: {
-          maintainer: 'Lukas Weigl',
-          homepage: 'https://anti-forensics.vercel.app/',
-          icon: path.join(__dirname, 'static', 'icon.jpeg'), // Path to the icon file for the app
+          icon: path.join(__dirname, 'static', 'icon.png'),
         },
       },
-    }
+    },
   ],
-  
 };

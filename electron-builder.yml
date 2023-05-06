@@ -5,4 +5,10 @@ directories:
   output: dist
 win:
   target: nsis
-  icon: icon.ico
+  icon: ./static/icon.png
+mac:
+  target: dmg
+  icon: ./static/icon.png
+linux:
+  target: deb
+  icon: ./static/icon.png
