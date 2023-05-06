@@ -4,19 +4,28 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        outputDirectory: '.'
+      },
     },
     {
       name: '@electron-forge/maker-zip',
       platforms: ['darwin'],
+      config: {
+        outputDirectory: '.'
+      },
     },
     {
       name: '@electron-forge/maker-deb',
-      config: {},
+      config: {
+        outputDirectory: '.'
+      },
     },
     {
       name: '@electron-forge/maker-rpm',
-      config: {},
+      config: {
+        outputDirectory: '.'
+      },
     },
   ],
 };

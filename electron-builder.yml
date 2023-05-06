@@ -1,0 +1,8 @@
+appId: com.example.filemanipulator
+productName: FileManipulator
+artifactName: FileManipulator-Setup-${version}.${ext}
+directories:
+  output: dist
+win:
+  target: nsis
+  icon: icon.ico
