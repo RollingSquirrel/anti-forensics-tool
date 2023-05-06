@@ -22,12 +22,6 @@ module.exports = {
       },
     },
     {
-      name: '@electron-forge/maker-rpm',
-      config: {
-        icon: path.join(__dirname, 'static', 'icon.png'),
-      },
-    },
-    {
       name: '@electron-forge/maker-deb',
       config: {
         options: {
