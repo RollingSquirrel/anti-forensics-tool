@@ -209,7 +209,7 @@
           modifiedFiles.textValue = modifiedTextValue.value;
         }
 
-        if (modifiedCreationDate.value && modifiedCreationDate.value.length) {
+        if (modifiedCreationDate.value && modifiedCreationDate.value.length && platform == "win32") {
           if (!usDateRegEx.test(modifiedCreationDate.value)) {
             fileModifiedSpan.textContent =
               'Invalid date format for creation date. Please use YYYY-MM-DD';
