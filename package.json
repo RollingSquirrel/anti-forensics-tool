@@ -10,7 +10,7 @@
     "pre:package": "npm run transform:css",
     "package": "electron-forge package",
     "pre:make": "npm run transform:css",
-    "make": "electron-builder --dir",
+    "make": "electron-forge make",
     "pre:publish": "npm run transform:css",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""

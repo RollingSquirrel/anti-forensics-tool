@@ -19,6 +19,7 @@ const createWindow = () => {
       nodeIntegration: false,
       contextIsolation: true,
     },
+    icon: "/static/icon.png"
   });
 
   // remove menu bar
