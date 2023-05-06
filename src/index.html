@@ -116,7 +116,7 @@
       const fileModifiedSpan = document.getElementById('fileModifiedSpan');
       const textValueInputLabel = document.getElementById('TextValueLabelOrg');
       let platform = window.api.platform;
-      let file = ""
+      let file = '';
 
       const modifyButton = document.getElementById('modify-btn');
       const modifiedCreationDate = document.getElementById(
@@ -140,6 +140,15 @@
       }
 
       uploadButton.addEventListener('click', () => {
+        //Clears Modified Data when new File is selected
+        console.log('FileType:' + file.type);
+        if (file.type !== undefined) {
+          modifiedCreationDate.value = '';
+          modifiedTextValue.value = '';
+          modifiedLastChanged.value = '';
+          modifiedLastUsed.value = '';
+        }
+
         const input = document.createElement('input');
         input.type = 'file';
         input.accept = '.txt, .pdf, .docx';
@@ -190,11 +199,10 @@
         const usDateRegEx = /^\d{4}-\d{2}-\d{2}$/;
 
         const modifiedFiles = {};
-        console.log(file.type)
+
         if (file.type == undefined) {
-          fileModifiedSpan.textContent =
-              'Please select a File';
-            return;
+          fileModifiedSpan.textContent = 'Please select a File';
+          return;
         }
 
         if (modifiedTextValue.value && modifiedTextValue.value.length) {
